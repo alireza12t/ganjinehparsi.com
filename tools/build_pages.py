@@ -19,7 +19,11 @@ HEAD = """<!doctype html>
 <meta property="og:site_name" content="Ganjineh · گنجینه">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{description}">
-<meta property="og:image" content="https://ganjinehparsi.com/assets/og.jpg">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ganjinehparsi.com/assets/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ganjineh, the treasury of Persian poetry: the app icon with گنجینه in gold Nastaliq">
 <meta name="twitter:card" content="summary_large_image">
 {canonical}<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
