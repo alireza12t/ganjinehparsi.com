@@ -327,9 +327,27 @@ async function showDownloads() {
   line.hidden = false;
 }
 
+// Readers on the home page: installs that have checked in with the backup server
+// (api.ganjinehparsi.com/api/ganjineh/stats, an estimate from anonymous ids). Hidden until it
+// reaches MIN_READERS, or while the server is off; add #stats to the address to see it anyway.
+const MIN_READERS = 50;
+async function showReaders() {
+  const line = document.querySelector("[data-readers]");
+  if (!line) return;
+  const stats = await fetch("https://api.ganjinehparsi.com/api/ganjineh/stats")
+    .then((r) => (r.ok ? r.json() : null))
+    .catch(() => null);
+  const readers = Number(stats?.readers) || 0;
+  if (!readers || (readers < MIN_READERS && location.hash !== "#stats")) return;
+  line.querySelector("[data-readers-fa]").textContent = readers.toLocaleString("fa-IR");
+  line.querySelector("[data-readers-en]").textContent = readers.toLocaleString("en-US");
+  line.hidden = false;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   wireLinks();
   showDownloads();
+  showReaders();
   wireTabs();
   showDaily();
   route();
