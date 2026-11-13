@@ -307,8 +307,29 @@ function wireTabs() {
   nav?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => nav.classList.remove("open")));
 }
 
+// Download count on the home page: App Store downloads from assets/stats.json (App Store Connect is
+// not public, so that number is updated by hand) plus the Mac DMG downloads, read live from GitHub.
+// Hidden until the total reaches MIN_DOWNLOADS; add #stats to the address to see it anyway.
+const MIN_DOWNLOADS = 100;
+async function showDownloads() {
+  const line = document.querySelector("[data-stats]");
+  if (!line) return;
+  const get = (url) => fetch(url).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const [saved, releases] = await Promise.all([
+    get("/assets/stats.json"),
+    get("https://api.github.com/repos/alireza12t/ganjinehparsi.com/releases?per_page=100"),
+  ]);
+  let total = Number(saved?.appStoreDownloads) || 0;
+  for (const release of releases || []) for (const asset of release.assets || []) total += asset.download_count || 0;
+  if (!total || (total < MIN_DOWNLOADS && location.hash !== "#stats")) return;
+  line.querySelector("[data-stats-fa]").textContent = total.toLocaleString("fa-IR");
+  line.querySelector("[data-stats-en]").textContent = total.toLocaleString("en-US");
+  line.hidden = false;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   wireLinks();
+  showDownloads();
   wireTabs();
   showDaily();
   route();
