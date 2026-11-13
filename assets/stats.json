@@ -1,5 +1,5 @@
 {
-  "appStoreDownloads": null,
-  "asOf": null,
+  "appStoreDownloads": 94,
+  "asOf": "2026-11-13",
   "source": "App Store Connect, first-time downloads. Update by hand. Mac DMG downloads are added live from GitHub; the site shows the line from 100."
 }
